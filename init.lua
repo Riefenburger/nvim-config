@@ -98,6 +98,10 @@ do
   vim.g.mapleader = ' '
   vim.g.maplocalleader = ' '
 
+  vim.g.loaded_perl_provider = 0
+  vim.g.loaded_ruby_provider = 0
+  vim.g.loaded_python3_provider = 0
+
   -- Set to true if you have a Nerd Font installed and selected in the terminal
   vim.g.have_nerd_font = false
 
@@ -742,7 +746,41 @@ do
     --    https://github.com/mrcjkb/rustaceanvim
     --
     -- But for many setups, the LSP (`rust_analyzer`) will work just fine
-    -- rust_analyzer = {},
+    rust_analyzer = {
+      settings = {
+        ['rust-analyzer'] = {
+          cargo = { features = 'all' },
+          check = { command = 'clippy' },
+          procMacro = { enable = true },
+        },
+      },
+    },
+
+    vue_ls = {
+      init_options = {
+        typescript = {
+          tsdk = vim.fn.trim(vim.fn.system('npm root -g')) .. '/typescript/lib',
+        },
+      },
+    },
+
+    vtsls = {
+      filetypes = { 'javascript', 'typescript', 'typescriptreact', 'vue' },
+      settings = {
+        vtsls = {
+          tsserver = {
+            globalPlugins = {
+              {
+                name = '@vue/typescript-plugin',
+                location = vim.fn.trim(vim.fn.system('npm root -g')) .. '/@vue/typescript-plugin',
+                languages = { 'vue' },
+                configNamespace = 'typescript',
+              },
+            },
+          },
+        },
+      },
+    },
 
     stylua = {}, -- Used to format Lua code
 
